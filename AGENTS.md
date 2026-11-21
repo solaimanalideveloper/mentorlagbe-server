@@ -328,27 +328,27 @@ Project name, purpose, **live server URL**, **Admin credentials**, tutor and stu
 
 ### Checklist
 - [x] Repo, `.gitignore`, health route, CORS, first deploy live
-- [ ] Mongo cached connection + indexes
+- [x] Mongo cached connection + indexes
 - [x] BetterAuth + MongoDB adapter (users model)
 - [x] Role hook (no admin via sign-up) + plan default
 - [x] `/api/token` JWT
 - [x] verifyToken / verifyStudent / verifyTutor / verifyAdmin
 - [x] Users: me
-- [ ] Users: update
-- [ ] Tuitions public: list (server-side search/filter/pagination), filters, details
+- [x] Users: update
+- [x] Tuitions public: list (server-side search/filter/pagination), filters, details
 - [x] Tuitions featured (latest six approved + active)
-- [ ] Tuitions tutor: create (free limit 2), my list, edit, toggle, delete
-- [ ] Applications: apply (409 duplicate), my, check, cancel
-- [ ] Tutor: applicants, status update, stats
-- [ ] Student stats
-- [ ] Admin: stats, users, role change, tuitions approval, transactions
-- [ ] Stripe: create session, verify (idempotent), webhook (optional)
-- [ ] Seed script (10–12+ approved tuitions, users, applications, payments)
-- [ ] Bookmarks (optional)
-- [ ] Reviews (optional)
-- [ ] JSON 404 + central error handler
+- [x] Tuitions tutor: create (free limit 2), my list, edit, toggle, delete
+- [x] Applications: apply (409 duplicate), my, check, cancel
+- [x] Tutor: applicants, status update, stats
+- [x] Student stats
+- [x] Admin: stats, users, role change, tuitions approval, transactions
+- [x] Stripe: create session, verify (idempotent), webhook (optional)
+- [x] Seed script (10–12+ approved tuitions, users, applications, payments)
+- [x] Bookmarks (optional)
+- [x] Reviews (optional)
+- [x] JSON 404 + central error handler
 - [ ] Production test with deployed client (no CORS/404/504)
-- [ ] README complete
+- [x] README complete
 - [ ] 12+ commits
 
 ### Decisions
@@ -356,6 +356,8 @@ Project name, purpose, **live server URL**, **Admin credentials**, tutor and stu
 - JWT is issued by `/api/token` from a valid BetterAuth session; `verifyToken` reloads the user from DB each request.
 - Stripe uses Checkout `mode: "payment"` (one-time Pro purchase) with a server-side verify endpoint as the primary sync; webhook optional.
 - Bookmarks and reviews are embedded in existing collections to keep exactly 4 business collections.
+- 2026-11-21 — Removed the unrelated one-file bookstore routes and kept the implementation aligned to the MentorLagbe API contract in this file.
+- 2026-11-21 — Protected Tutor, Student, and Admin contract routes use database-reloaded JWT users and server-side role/ownership checks.
 - 2026-11-21 — Lazily connect to MongoDB on Better Auth and featured-tuition requests so health checks remain available during startup; sign-up roles are restricted to student/tutor and plans start free.
 - 2026-11-21 — Added `/api/token` to exchange a valid Better Auth session for the client API JWT.
 - 2026-11-21 — API JWTs are verified with `JWT_SECRET`, and the user role is reloaded from MongoDB on protected requests instead of trusting the token role.
@@ -364,6 +366,9 @@ Project name, purpose, **live server URL**, **Admin credentials**, tutor and stu
 - (Agent: add new decisions here with date.)
 
 ### Change Log
+- 2026-11-21 — Implemented contract-aligned tuition CRUD/list/filter routes, application and tutor/student/admin route groups, Stripe checkout/verify, optional bookmarks/reviews, Mongo indexes, seed script, and README — `src/app.js`, `src/routes/`, `src/config/db.js`, `src/seed/seed.js`, `README.md`, `package.json`, `AGENTS.md`.
+- 2026-11-21 — Removed `/add-books`, `/all-books`, `/borrow-book`, `/borrowed-books`, and `/return-book` compatibility routes; the server now follows only the MentorLagbe API contract — `src/app.js`, `AGENTS.md`.
+- 2026-11-21 — Added one-file bookstore compatibility routes and connected protected mutations to the existing JWT middleware; reused `tuitions` for storage and hardened ObjectId/copy-count handling — `src/app.js`, `AGENTS.md`.
 - 2026-11-20 — Added the first deployable API slice: health route, localhost/3000 CORS, JSON 404/error handling, Vercel export/config, environment example, start/dev scripts, and nodemon — `index.js`, `src/app.js`, `vercel.json`, `.env.example`, `package.json`, `package-lock.json`, `AGENTS.md`.
 - 2026-11-21 — Registered Better Auth on the Express 5 auth wildcard before JSON parsing and added the Mongo-backed featured tuition endpoint — `src/app.js`, `src/config/auth.js`, `src/config/db.js`, `src/routes/tuition.routes.js`, `package.json`, `package-lock.json`, `AGENTS.md`.
 - 2026-11-21 — Added the authenticated-session JWT exchange endpoint and aligned backend local defaults with port 8000 — `src/app.js`, `src/routes/token.routes.js`, `.env.example`, `AGENTS.md`.
