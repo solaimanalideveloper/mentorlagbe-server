@@ -4,6 +4,7 @@ import { toNodeHandler } from "better-auth/node";
 import { getAuth } from "./config/auth.js";
 import tokenRoutes from "./routes/token.routes.js";
 import tuitionRoutes from "./routes/tuition.routes.js";
+import userRoutes from "./routes/user.routes.js";
 
 const app = express();
 const clientURL = process.env.CLIENT_URL || "http://localhost:3000";
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/token", tokenRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/tuitions", tuitionRoutes);
 
 app.use((req, res) => {

@@ -332,8 +332,9 @@ Project name, purpose, **live server URL**, **Admin credentials**, tutor and stu
 - [x] BetterAuth + MongoDB adapter (users model)
 - [x] Role hook (no admin via sign-up) + plan default
 - [x] `/api/token` JWT
-- [ ] verifyToken / verifyStudent / verifyTutor / verifyAdmin
-- [ ] Users: me, update
+- [x] verifyToken / verifyStudent / verifyTutor / verifyAdmin
+- [x] Users: me
+- [ ] Users: update
 - [ ] Tuitions public: list (server-side search/filter/pagination), filters, details
 - [x] Tuitions featured (latest six approved + active)
 - [ ] Tuitions tutor: create (free limit 2), my list, edit, toggle, delete
@@ -357,12 +358,19 @@ Project name, purpose, **live server URL**, **Admin credentials**, tutor and stu
 - Bookmarks and reviews are embedded in existing collections to keep exactly 4 business collections.
 - 2026-11-21 — Lazily connect to MongoDB on Better Auth and featured-tuition requests so health checks remain available during startup; sign-up roles are restricted to student/tutor and plans start free.
 - 2026-11-21 — Added `/api/token` to exchange a valid Better Auth session for the client API JWT.
+- 2026-11-21 — API JWTs are verified with `JWT_SECRET`, and the user role is reloaded from MongoDB on protected requests instead of trusting the token role.
+- 2026-11-21 — Local Better Auth and JWT secrets are configured in the ignored backend `.env`.
+- 2026-11-21 — Browser sign-up created a student account and issued a valid Better Auth session and API JWT; `/api/student/stats` remains unimplemented.
 - (Agent: add new decisions here with date.)
 
 ### Change Log
 - 2026-11-20 — Added the first deployable API slice: health route, localhost/3000 CORS, JSON 404/error handling, Vercel export/config, environment example, start/dev scripts, and nodemon — `index.js`, `src/app.js`, `vercel.json`, `.env.example`, `package.json`, `package-lock.json`, `AGENTS.md`.
 - 2026-11-21 — Registered Better Auth on the Express 5 auth wildcard before JSON parsing and added the Mongo-backed featured tuition endpoint — `src/app.js`, `src/config/auth.js`, `src/config/db.js`, `src/routes/tuition.routes.js`, `package.json`, `package-lock.json`, `AGENTS.md`.
 - 2026-11-21 — Added the authenticated-session JWT exchange endpoint and aligned backend local defaults with port 8000 — `src/app.js`, `src/routes/token.routes.js`, `.env.example`, `AGENTS.md`.
+- 2026-11-21 — Added JWT verification and fresh-user lookup middleware, role guards, and the protected current-user endpoint — `src/middlewares/verifyToken.js`, `src/middlewares/verifyStudent.js`, `src/middlewares/verifyTutor.js`, `src/middlewares/verifyAdmin.js`, `src/routes/user.routes.js`, `src/app.js`, `AGENTS.md`.
+- 2026-11-21 — Verified local Better Auth session, JWT exchange unauthenticated response, featured endpoint, and localhost client CORS with configured ignored environment — `src/config/auth.js`, `src/routes/token.routes.js`, `src/routes/tuition.routes.js`, `.env`.
+- 2026-11-21 — Verified real local student sign-up, cookie-backed session, and JWT exchange; found the dashboard stats route still returns 404 — `src/app.js`, `src/config/auth.js`, `src/routes/token.routes.js`, `src/routes/student.routes.js`.
 
 ### Open Questions / Blockers
+
 - (Agent: list anything needing the developer's input.)
