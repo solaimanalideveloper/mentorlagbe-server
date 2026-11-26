@@ -363,9 +363,13 @@ Project name, purpose, **live server URL**, **Admin credentials**, tutor and stu
 - 2026-11-21 — Browser sign-up created a student account and issued a valid Better Auth session and API JWT; `/api/student/stats` remains unimplemented.
 - 2026-11-24 — Confirmed `seeded_session_student` is a hard-coded sample payment record from the seed script, not proof of a real Stripe payment; the script sets seeded users to `free`.
 - 2026-11-26 — Merged environment template keys into the ignored local `.env`, preserving existing values, and removed `.env.example` as requested.
+- 2026-11-26 — Production CORS and BetterAuth trusted origins use the configured client URL only; localhost origins and URL fallbacks are development-only.
+- 2026-11-26 — Full-stack readiness check confirmed local client/server URLs align and builds pass, but tutor stats response fields differ between the server and client; live database and Vercel production settings remain unverified.
 - (Agent: add new decisions here with date.)
 
 ### Change Log
+- 2026-11-26 — Cross-checked client/server wiring and build gates; recorded tutor stats contract mismatch and production configuration/live-connection verification still needed — `AGENTS.md`.
+- 2026-11-26 — Audited Vercel serverless configuration and syntax; restricted localhost CORS/auth/payment URL fallbacks to development and require `CLIENT_URL` in production. JavaScript syntax and production-mode health/404/CORS smoke checks passed — `src/app.js`, `src/config/auth.js`, `src/routes/payment.routes.js`, `AGENTS.md`.
 - 2026-11-26 — Merged missing configuration keys into local `.env`, removed `.env.example`, and updated setup guidance — `.env`, `README.md`, `AGENTS.md`.
 - 2026-11-24 — Traced the seeded student payment record to the sample-data upsert in `src/seed/seed.js`; no live database was accessed or changed.
 - 2026-11-21 — Implemented contract-aligned tuition CRUD/list/filter routes, application and tutor/student/admin route groups, Stripe checkout/verify, optional bookmarks/reviews, Mongo indexes, seed script, and README — `src/app.js`, `src/routes/`, `src/config/db.js`, `src/seed/seed.js`, `README.md`, `package.json`, `AGENTS.md`.
@@ -380,4 +384,5 @@ Project name, purpose, **live server URL**, **Admin credentials**, tutor and stu
 
 ### Open Questions / Blockers
 
-- (Agent: list anything needing the developer's input.)
+- Tutor stats contract mismatch: server returns `totalTuitions` and `plan`; client expects `totalPosted` and `currentPlan`. Align client/server before release.
+- Production deployment remains unverified until Vercel environment variables are set to deployed URLs and production auth/API flows are tested.

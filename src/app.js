@@ -13,10 +13,14 @@ import paymentRoutes from "./routes/payment.routes.js";
 import studentExtrasRoutes from "./routes/student-extras.routes.js";
 
 const app = express();
-const clientURL = process.env.CLIENT_URL || "http://localhost:3000";
+const isProduction = process.env.NODE_ENV === "production";
+const clientURL = process.env.CLIENT_URL;
+if (isProduction && !clientURL) {
+  throw new Error("CLIENT_URL must be configured in production");
+}
 
 app.use(cors({
-  origin: [clientURL, "http://localhost:3000"],
+  origin: [clientURL, ...(!isProduction ? ["http://localhost:3000"] : [])].filter(Boolean),
   credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],

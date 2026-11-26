@@ -22,7 +22,11 @@ router.post("/create-checkout-session", verifyToken, async (req, res) => {
   const amount = req.user.role === "tutor"
     ? Number(process.env.PRO_TUTOR_PRICE_USD || 15)
     : Number(process.env.PRO_STUDENT_PRICE_USD || 10);
-  const clientURL = (process.env.CLIENT_URL || "http://localhost:3000").replace(/\/$/, "");
+  const configuredClientURL = process.env.CLIENT_URL;
+  if (!configuredClientURL && process.env.NODE_ENV === "production") {
+    throw new Error("CLIENT_URL must be configured in production.");
+  }
+  const clientURL = (configuredClientURL || "http://localhost:3000").replace(/\/$/, "");
 
   const stripe = getStripe();
   const session = await stripe.checkout.sessions.create({

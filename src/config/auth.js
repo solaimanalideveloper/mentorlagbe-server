@@ -5,11 +5,15 @@ import { getDb } from "./db.js";
 let authPromise;
 
 export const getAuth = async () => {
+  const isProduction = process.env.NODE_ENV === "production";
   if (!process.env.BETTER_AUTH_SECRET) {
     throw new Error("BETTER_AUTH_SECRET is required for authentication");
   }
-  if (!process.env.BETTER_AUTH_URL && process.env.NODE_ENV === "production") {
+  if (!process.env.BETTER_AUTH_URL && isProduction) {
     throw new Error("BETTER_AUTH_URL must be configured in production");
+  }
+  if (!process.env.CLIENT_URL && isProduction) {
+    throw new Error("CLIENT_URL must be configured in production");
   }
 
   if (!authPromise) {
@@ -17,8 +21,11 @@ export const getAuth = async () => {
       .then((db) => betterAuth({
         database: mongodbAdapter(db),
         secret: process.env.BETTER_AUTH_SECRET,
-        baseURL: process.env.BETTER_AUTH_URL || "http://localhost:8000",
-        trustedOrigins: [process.env.CLIENT_URL, "http://localhost:3000"].filter(Boolean),
+        baseURL: process.env.BETTER_AUTH_URL || (!isProduction ? "http://localhost:8000" : undefined),
+        trustedOrigins: [
+          process.env.CLIENT_URL,
+          ...(!isProduction ? ["http://localhost:3000"] : []),
+        ].filter(Boolean),
         emailAndPassword: {
           enabled: true,
         },
@@ -44,7 +51,7 @@ export const getAuth = async () => {
             },
           },
         },
-        ...(process.env.NODE_ENV === "production" && {
+        ...(isProduction && {
           advanced: {
             defaultCookieAttributes: {
               sameSite: "none",
