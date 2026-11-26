@@ -370,9 +370,13 @@ Project name, purpose, **live server URL**, **Admin credentials**, tutor and stu
 - 2026-11-26 — Recorded the deployed client URL for production `CLIENT_URL`; kept the ignored local `.env` pointed at localhost to preserve local auth/CORS and Stripe return behavior.
 - 2026-11-26 — Set the client origin in both Vercel Production projects and removed server-only auth/database variables from the client project; server production secrets still need manual configuration.
 - 2026-11-26 — Standardized the MongoDB database name to `mentorlagb` in local config, server fallback, and Vercel Production.
+- 2026-11-26 — Aligned the server `.gitignore` with the ignore patterns provided for the client, including environment-file protection and the `.env.example` exception.
+- 2026-11-26 — Set the local server `CLIENT_URL` to the client's localhost origin; kept `BETTER_AUTH_URL` and database credentials server-side rather than copying the client's server-only entries.
 - (Agent: add new decisions here with date.)
 
 ### Change Log
+- 2026-11-26 — Aligned local server CORS/return URLs with the client's localhost origin; kept production origin configuration for Vercel and did not copy server-only settings from the client `.env` — `.env`, `AGENTS.md`.
+- 2026-11-26 — Matched the server `.gitignore` to the client-provided dependency, build, environment, Vercel, and tooling ignore patterns — `.gitignore`, `AGENTS.md`.
 - 2026-11-26 — Verified the client `/dashboard/tutor` route after the Next.js instant-navigation fix: HTTP 200 and production build pass; no server API or contract changes were required.
 - 2026-11-26 — Set `DB_NAME=mentorlagb` locally and in Vercel Production; aligned the MongoDB fallback and this configuration guide — `.env`, `src/config/db.js`, `AGENTS.md`.
 - 2026-11-26 — Set server `CLIENT_URL` and client `NEXT_PUBLIC_SITE_URL` on their Vercel Production projects; removed `MONGODB_URI`, `BETTER_AUTH_SECRET`, and `BETTER_AUTH_URL` from the client project. Vercel still lacks server runtime environment values — `AGENTS.md`, `README.md`, Vercel project environments.
