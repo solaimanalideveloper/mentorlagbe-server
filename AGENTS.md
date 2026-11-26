@@ -11,7 +11,7 @@
 1. **Read this file first, every session.** Then read the "Progress Log" (section 16).
 2. **After finishing any task, update section 16**: tick the checkbox, add a dated line under "Change Log", record decisions under "Decisions". Never skip this.
 3. **A working production server beats extra features.** Any CORS / 404 / 504 error on production = score 0.
-4. **Never commit secrets.** `.env` is git-ignored. Commit only `.env.example` with empty values.
+4. **Never commit secrets.** `.env` is git-ignored; never commit local environment files.
 5. **Minimum 12 meaningful commits.** Conventional Commits: `feat: add verifyToken middleware`, `fix: cors credentials`, `chore: add vercel.json`. Suggest a commit message after each completed unit. No giant commits.
 6. **Never trust the client.** Validate all input, check roles and ownership on the server, enforce business rules here (plan limits, duplicates, role restrictions).
 7. **Do not change the API contract** without updating section 8 and logging it in the Change Log (the client agent depends on it).
@@ -55,7 +55,6 @@ PRO_TUTOR_PRICE_USD=15
 PRO_STUDENT_PRICE_USD=10
 ```
 
-- Also maintain `.env.example` (same keys, empty).
 - Production: `BETTER_AUTH_URL` = deployed server URL, `CLIENT_URL` = deployed client URL (no trailing slash).
 - ImgBB upload happens on the client (key in client `.env.local`), so the server needs no ImgBB key.
 
@@ -95,7 +94,6 @@ Optional: `reviews: [{ studentEmail, studentName, rating, feedback, createdAt }]
 ```
 mentorlagbe-server/
 ├── .env  (git-ignored)
-├── .env.example
 ├── .gitignore
 ├── AGENTS.md
 ├── README.md
@@ -363,9 +361,13 @@ Project name, purpose, **live server URL**, **Admin credentials**, tutor and stu
 - 2026-11-21 — API JWTs are verified with `JWT_SECRET`, and the user role is reloaded from MongoDB on protected requests instead of trusting the token role.
 - 2026-11-21 — Local Better Auth and JWT secrets are configured in the ignored backend `.env`.
 - 2026-11-21 — Browser sign-up created a student account and issued a valid Better Auth session and API JWT; `/api/student/stats` remains unimplemented.
+- 2026-11-24 — Confirmed `seeded_session_student` is a hard-coded sample payment record from the seed script, not proof of a real Stripe payment; the script sets seeded users to `free`.
+- 2026-11-26 — Merged environment template keys into the ignored local `.env`, preserving existing values, and removed `.env.example` as requested.
 - (Agent: add new decisions here with date.)
 
 ### Change Log
+- 2026-11-26 — Merged missing configuration keys into local `.env`, removed `.env.example`, and updated setup guidance — `.env`, `README.md`, `AGENTS.md`.
+- 2026-11-24 — Traced the seeded student payment record to the sample-data upsert in `src/seed/seed.js`; no live database was accessed or changed.
 - 2026-11-21 — Implemented contract-aligned tuition CRUD/list/filter routes, application and tutor/student/admin route groups, Stripe checkout/verify, optional bookmarks/reviews, Mongo indexes, seed script, and README — `src/app.js`, `src/routes/`, `src/config/db.js`, `src/seed/seed.js`, `README.md`, `package.json`, `AGENTS.md`.
 - 2026-11-21 — Removed `/add-books`, `/all-books`, `/borrow-book`, `/borrowed-books`, and `/return-book` compatibility routes; the server now follows only the MentorLagbe API contract — `src/app.js`, `AGENTS.md`.
 - 2026-11-21 — Added one-file bookstore compatibility routes and connected protected mutations to the existing JWT middleware; reused `tuitions` for storage and hardened ObjectId/copy-count handling — `src/app.js`, `AGENTS.md`.

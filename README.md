@@ -34,7 +34,7 @@ better-auth, cors, dotenv, express, jsonwebtoken, mongodb, stripe, nodemon
 
 ## Setup
 
-1. Copy `.env.example` to `.env` and fill the values.
+1. Create or update the git-ignored `.env` with the environment variables listed below.
 2. Install dependencies: `npm install`
 3. Start locally: `npm run dev`
 4. Seed the database: `npm run seed`
