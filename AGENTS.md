@@ -44,7 +44,7 @@ All packages must be listed in README.md.
 PORT=8000
 NODE_ENV=development
 MONGODB_URI=
-DB_NAME=mentorlagbe
+DB_NAME=mentorlagb
 BETTER_AUTH_SECRET=
 BETTER_AUTH_URL=http://localhost:8000
 JWT_SECRET=
@@ -369,9 +369,12 @@ Project name, purpose, **live server URL**, **Admin credentials**, tutor and stu
 - 2026-11-26 — Full-stack readiness check confirmed local client/server URLs align and builds pass, but tutor stats response fields differ between the server and client; live database and Vercel production settings remain unverified.
 - 2026-11-26 — Recorded the deployed client URL for production `CLIENT_URL`; kept the ignored local `.env` pointed at localhost to preserve local auth/CORS and Stripe return behavior.
 - 2026-11-26 — Set the client origin in both Vercel Production projects and removed server-only auth/database variables from the client project; server production secrets still need manual configuration.
+- 2026-11-26 — Standardized the MongoDB database name to `mentorlagb` in local config, server fallback, and Vercel Production.
 - (Agent: add new decisions here with date.)
 
 ### Change Log
+- 2026-11-26 — Verified the client `/dashboard/tutor` route after the Next.js instant-navigation fix: HTTP 200 and production build pass; no server API or contract changes were required.
+- 2026-11-26 — Set `DB_NAME=mentorlagb` locally and in Vercel Production; aligned the MongoDB fallback and this configuration guide — `.env`, `src/config/db.js`, `AGENTS.md`.
 - 2026-11-26 — Set server `CLIENT_URL` and client `NEXT_PUBLIC_SITE_URL` on their Vercel Production projects; removed `MONGODB_URI`, `BETTER_AUTH_SECRET`, and `BETTER_AUTH_URL` from the client project. Vercel still lacks server runtime environment values — `AGENTS.md`, `README.md`, Vercel project environments.
 - 2026-11-26 — Added the deployed client URL to server deployment guidance and README; retained localhost in the local `.env` and documented the required Vercel Production `CLIENT_URL` setting — `AGENTS.md`, `README.md`.
 - 2026-11-26 — Cross-checked client/server wiring and build gates; recorded tutor stats contract mismatch and production configuration/live-connection verification still needed — `AGENTS.md`.
@@ -391,5 +394,5 @@ Project name, purpose, **live server URL**, **Admin credentials**, tutor and stu
 ### Open Questions / Blockers
 
 - Tutor stats contract mismatch: server returns `totalTuitions` and `plan`; client expects `totalPosted` and `currentPlan`. Align client/server before release.
-- Server Vercel Production is missing `MONGODB_URI`, `DB_NAME`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `JWT_SECRET`, and `STRIPE_SECRET_KEY`; enter these manually in Vercel. Rotate the database/auth credentials removed from the client project because removing Vercel variables does not revoke them.
+- Server Vercel Production is missing `MONGODB_URI`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `JWT_SECRET`, and `STRIPE_SECRET_KEY`; enter these manually in Vercel. `DB_NAME=mentorlagb` is configured. Rotate the database/auth credentials removed from the client project because removing Vercel variables does not revoke them.
 - Verify client `NEXT_PUBLIC_API_URL` points to the deployed server, then redeploy both projects and test production auth/API flows.

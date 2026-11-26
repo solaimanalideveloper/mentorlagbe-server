@@ -66,7 +66,7 @@ export const getDb = async () => {
   }
 
   await connectionPromise;
-  const db = mongoClient.db(process.env.DB_NAME || "mentorlagbe");
+  const db = mongoClient.db(process.env.DB_NAME || "mentorlagb");
   if (!indexesReady) {
     await ensureIndexes(db);
     indexesReady = true;
