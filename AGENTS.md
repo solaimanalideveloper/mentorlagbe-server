@@ -56,6 +56,7 @@ PRO_STUDENT_PRICE_USD=10
 ```
 
 - Production: `BETTER_AUTH_URL` = deployed server URL, `CLIENT_URL` = deployed client URL (no trailing slash).
+- Production client URL: `https://mentorelagbe-client.vercel.app` (set as `CLIENT_URL` in the server's Vercel Production environment).
 - ImgBB upload happens on the client (key in client `.env.local`), so the server needs no ImgBB key.
 
 ---
@@ -271,6 +272,7 @@ Create:
 ## 12. Deployment (Vercel) — Score 0 if broken
 
 - Set all env vars in Vercel. Atlas Network Access `0.0.0.0/0`.
+- Set the server project's Production `CLIENT_URL` to `https://mentorelagbe-client.vercel.app` (without a trailing slash); keep the local `.env` URL at `http://localhost:3000` for development.
 - After deploy, test with the **production client**: sign up, sign in, load tuitions, protected calls. Check the browser console for CORS errors.
 - Verify `GET /` health route returns JSON, and an unknown route returns a JSON 404 (not an HTML crash page).
 - Test cross-domain login on production (cookies `sameSite: none; secure`).
@@ -365,9 +367,11 @@ Project name, purpose, **live server URL**, **Admin credentials**, tutor and stu
 - 2026-11-26 — Merged environment template keys into the ignored local `.env`, preserving existing values, and removed `.env.example` as requested.
 - 2026-11-26 — Production CORS and BetterAuth trusted origins use the configured client URL only; localhost origins and URL fallbacks are development-only.
 - 2026-11-26 — Full-stack readiness check confirmed local client/server URLs align and builds pass, but tutor stats response fields differ between the server and client; live database and Vercel production settings remain unverified.
+- 2026-11-26 — Recorded the deployed client URL for production `CLIENT_URL`; kept the ignored local `.env` pointed at localhost to preserve local auth/CORS and Stripe return behavior.
 - (Agent: add new decisions here with date.)
 
 ### Change Log
+- 2026-11-26 — Added the deployed client URL to server deployment guidance and README; retained localhost in the local `.env` and documented the required Vercel Production `CLIENT_URL` setting — `AGENTS.md`, `README.md`.
 - 2026-11-26 — Cross-checked client/server wiring and build gates; recorded tutor stats contract mismatch and production configuration/live-connection verification still needed — `AGENTS.md`.
 - 2026-11-26 — Audited Vercel serverless configuration and syntax; restricted localhost CORS/auth/payment URL fallbacks to development and require `CLIENT_URL` in production. JavaScript syntax and production-mode health/404/CORS smoke checks passed — `src/app.js`, `src/config/auth.js`, `src/routes/payment.routes.js`, `AGENTS.md`.
 - 2026-11-26 — Merged missing configuration keys into local `.env`, removed `.env.example`, and updated setup guidance — `.env`, `README.md`, `AGENTS.md`.

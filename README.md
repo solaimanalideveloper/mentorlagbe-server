@@ -8,6 +8,8 @@ Configure the deployed Vercel URL in `BETTER_AUTH_URL`.
 
 ## Client
 
+Live client: https://mentorelagbe-client.vercel.app/
+
 https://github.com/solaimanalideveloper/mentorlagbe-client
 
 ## Test credentials
@@ -42,3 +44,5 @@ better-auth, cors, dotenv, express, jsonwebtoken, mongodb, stripe, nodemon
 ## Environment variables
 
 PORT, NODE_ENV, MONGODB_URI, DB_NAME, BETTER_AUTH_SECRET, BETTER_AUTH_URL, JWT_SECRET, CLIENT_URL, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, PRO_TUTOR_PRICE_USD, PRO_STUDENT_PRICE_USD
+
+For the server's Vercel Production environment, set `CLIENT_URL=https://mentorelagbe-client.vercel.app` (without a trailing slash). Keep `CLIENT_URL=http://localhost:3000` in the local `.env`.
