@@ -372,9 +372,11 @@ Project name, purpose, **live server URL**, **Admin credentials**, tutor and stu
 - 2026-11-26 — Standardized the MongoDB database name to `mentorlagb` in local config, server fallback, and Vercel Production.
 - 2026-11-26 — Aligned the server `.gitignore` with the ignore patterns provided for the client, including environment-file protection and the `.env.example` exception.
 - 2026-11-26 — Set the local server `CLIENT_URL` to the client's localhost origin; kept `BETTER_AUTH_URL` and database credentials server-side rather than copying the client's server-only entries.
+- 2026-11-26 — Added the supplied live client and server URLs to the README and documented their production environment-variable mapping.
 - (Agent: add new decisions here with date.)
 
 ### Change Log
+- 2026-11-26 — Documented the live client/server URLs and their production `CLIENT_URL`/`BETTER_AUTH_URL` settings — `README.md`, `AGENTS.md`.
 - 2026-11-26 — Aligned local server CORS/return URLs with the client's localhost origin; kept production origin configuration for Vercel and did not copy server-only settings from the client `.env` — `.env`, `AGENTS.md`.
 - 2026-11-26 — Matched the server `.gitignore` to the client-provided dependency, build, environment, Vercel, and tooling ignore patterns — `.gitignore`, `AGENTS.md`.
 - 2026-11-26 — Verified the client `/dashboard/tutor` route after the Next.js instant-navigation fix: HTTP 200 and production build pass; no server API or contract changes were required.

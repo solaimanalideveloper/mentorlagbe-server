@@ -2,13 +2,12 @@
 
 Express and MongoDB API for the MentorLagbe tuition and mentorship marketplace.
 
-## Live server
+## Live URLs
 
-Configure the deployed Vercel URL in `BETTER_AUTH_URL`.
+- Client: https://mentorelagbe-client.vercel.app
+- Server: https://mentorlagbe-server-55k4.vercel.app
 
 ## Client
-
-Live client: https://mentorelagbe-client.vercel.app/
 
 https://github.com/solaimanalideveloper/mentorlagbe-client
 
@@ -45,4 +44,4 @@ better-auth, cors, dotenv, express, jsonwebtoken, mongodb, stripe, nodemon
 
 PORT, NODE_ENV, MONGODB_URI, DB_NAME, BETTER_AUTH_SECRET, BETTER_AUTH_URL, JWT_SECRET, CLIENT_URL, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, PRO_TUTOR_PRICE_USD, PRO_STUDENT_PRICE_USD
 
-For the server's Vercel Production environment, set `CLIENT_URL=https://mentorelagbe-client.vercel.app` (without a trailing slash). Keep `CLIENT_URL=http://localhost:3000` in the local `.env`.
+For the server's Vercel Production environment, set `BETTER_AUTH_URL=https://mentorlagbe-server-55k4.vercel.app` and `CLIENT_URL=https://mentorelagbe-client.vercel.app`. Keep `BETTER_AUTH_URL=http://localhost:8000` and `CLIENT_URL=http://localhost:3000` in the local `.env`.
